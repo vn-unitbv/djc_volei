@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - GameManager
+  - OptionsCanvas
+  - MainMenuCanvas
+  - Player 1
+  - Player 2
+  - ball
   layers:
   - Default
   - TransparentFX
