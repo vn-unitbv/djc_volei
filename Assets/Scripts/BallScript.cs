@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BallScript : MonoBehaviour
 {
@@ -11,9 +12,9 @@ public class BallScript : MonoBehaviour
     {
         body = GetComponent<Rigidbody>();
         if (Random.Range(1.0f, 2.0f) > 1.4f)
-            body.AddForce(new(0, 0, 1), ForceMode.Impulse);
+            body.AddForce(new(0, 0, 2.5f), ForceMode.Impulse);
         else
-            body.AddForce(new(0,0,-1),ForceMode.Impulse);
+            body.AddForce(new(0,0,-2.5f),ForceMode.Impulse);
     }
 
     // Update is called once per frame
@@ -24,8 +25,10 @@ public class BallScript : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("Player 1"))
-            body.AddForce(Random.RandomRange(10,50), 750, Random.RandomRange(10,50));
+            body.AddForce(Random.Range(-0.5f, 0.5f), 4, 0.7f, ForceMode.Impulse);
         else if (collision.gameObject.tag.Equals("Player 2"))
-            body.AddForce(Random.RandomRange(10, 50),750, Random.RandomRange(10, 50));
+            body.AddForce(Random.Range(-0.5f, 0.5f), 4,-0.7f, ForceMode.Impulse);
+        else if(collision.gameObject.tag.Equals("Plane"))
+            SceneManager.LoadSceneAsync(1);
     }
 }

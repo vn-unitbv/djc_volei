@@ -26,24 +26,24 @@ public class PlayerScript : MonoBehaviour
     private void ArrowMovement()
     {
         if (Input.GetKey(KeyCode.UpArrow))
-            Player.transform.Translate(0, 0, 0.05f);
+            Player.transform.Translate(-0.05f, 0,0);
         if (Input.GetKey(KeyCode.DownArrow))
-            Player.transform.Translate(0, 0, -0.05f);
-        if (Input.GetKey(KeyCode.LeftArrow))
-            Player.transform.Translate(-0.05f, 0, 0);
-        if (Input.GetKey(KeyCode.RightArrow))
             Player.transform.Translate(0.05f, 0, 0);
+        if (Input.GetKey(KeyCode.LeftArrow))
+            Player.transform.Translate(0, 0, -0.05f);
+        if (Input.GetKey(KeyCode.RightArrow))
+            Player.transform.Translate(0, 0, 0.05f);
     }
     private void KeysMovement()
     {
         if (Input.GetKey(KeyCode.W))
-            Player.transform.Translate(0, 0, -0.05f);
+            Player.transform.Translate(0.05f, 0,0);
         if (Input.GetKey(KeyCode.S))
-            Player.transform.Translate(0, 0, 0.05f);
-        if (Input.GetKey(KeyCode.A))
-            Player.transform.Translate(0.05f, 0, 0);
-        if (Input.GetKey(KeyCode.D))
             Player.transform.Translate(-0.05f, 0, 0);
+        if (Input.GetKey(KeyCode.A))
+            Player.transform.Translate(0, 0, 0.05f);
+        if (Input.GetKey(KeyCode.D))
+            Player.transform.Translate(0, 0, -0.05f);
     }
     void Update()
     {
