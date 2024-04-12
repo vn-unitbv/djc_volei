@@ -11,6 +11,11 @@ TagManager:
   - Player 2
   - ball
   - Plane
+  - side 1
+  - side 2
+  - court
+  - score 1
+  - score 2
   layers:
   - Default
   - TransparentFX
