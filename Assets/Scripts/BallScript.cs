@@ -25,8 +25,8 @@ public class BallScript : MonoBehaviour
         player1Points = player2Points = 0;
         Score1 = GameObject.FindGameObjectWithTag("score 1").GetComponentInChildren<TMP_Text>();
         Score2 = GameObject.FindGameObjectWithTag("score 2").GetComponentInChildren<TMP_Text>();
-        Score1.text += (" " + 0);
-        Score2.text += (" " + 0);
+        Score1.text = "0";
+        Score2.text = "0";
     }
 
     // Update is called once per frame
@@ -45,9 +45,9 @@ public class BallScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag.Equals("side 1"))
-            Score1.text = "Score: " + (++player1Points).ToString();
+            Score1.text = (++player1Points).ToString();
         else if (other.gameObject.tag.Equals("side 2"))
-            Score2.text = "Score: " + (++player2Points).ToString();
+            Score2.text = (++player2Points).ToString();
         else if (other.gameObject.tag.Equals("Plane") || other.gameObject.tag.Equals("court"))
             SceneManager.LoadSceneAsync(1);
     }
