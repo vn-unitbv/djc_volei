@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
     public GameObject Player;
     public char up;
     public char down;
     public char right;
     public char left;
+
+    private float _movementSpeed = 5.0f;
     void Start()
     {
         if (up != 'w')
@@ -21,33 +22,37 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-
     private void ArrowMovement()
     {
+        Vector3 direction = Vector3.zero;
         if (Input.GetKey(KeyCode.UpArrow))
-            Player.transform.Translate(-0.05f, 0, 0);
+            direction = Vector3.forward;
         if (Input.GetKey(KeyCode.DownArrow))
-            Player.transform.Translate(0.05f, 0, 0);
+            direction = Vector3.back;
         if (Input.GetKey(KeyCode.LeftArrow))
-            Player.transform.Translate(0, 0, -0.05f);
+            direction = Vector3.left;
         if (Input.GetKey(KeyCode.RightArrow))
-            Player.transform.Translate(0, 0, 0.05f);
+            direction = Vector3.right;
         if (Input.GetKey(KeyCode.Space))
-            Player.transform.Translate(0, 0.2f, 0);
+            direction = Vector3.up;
+
+        transform.Translate(direction * _movementSpeed * Time.deltaTime);
     }
     private void KeysMovement()
     {
+        Vector3 direction = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
-            Player.transform.Translate(0.05f, 0, 0);
+            direction = Vector3.forward;
         if (Input.GetKey(KeyCode.S))
-            Player.transform.Translate(-0.05f, 0, 0);
+            direction = Vector3.back;
         if (Input.GetKey(KeyCode.A))
-            Player.transform.Translate(0, 0, 0.05f);
+            direction = Vector3.left;
         if (Input.GetKey(KeyCode.D))
-            Player.transform.Translate(0, 0, -0.05f);
+            direction = Vector3.right;
         if (Input.GetKey(KeyCode.Z))
-            Player.transform.Translate(0, 0.2f, 0);
+            direction = Vector3.up;
+
+        transform.Translate(direction * _movementSpeed * Time.deltaTime);
     }
     void Update()
     {
