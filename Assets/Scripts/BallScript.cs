@@ -12,6 +12,8 @@ public class BallScript : MonoBehaviour
 {
     private Rigidbody _rigidbody;
 
+    public GameObject _BallTracker;
+
     public event Action<int> SideHit;
     public event Action OutsideHit;
     public event Action<int> PlayerHit;
@@ -50,6 +52,8 @@ public class BallScript : MonoBehaviour
                 OutsideHit?.Invoke();
                 break;
         }
+
+        _BallTracker.transform.position = new Vector3(transform.position.x, _BallTracker.transform.position.y, transform.position.z);
     }
 
     private void OnCollisionEnter(Collision collision)
