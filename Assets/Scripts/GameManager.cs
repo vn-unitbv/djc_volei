@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
         _ballLogic.SideHit += BallLogic_SideHit;
         _ballLogic.OutsideHit += BallLogic_OutsideHit;
         _ballLogic.PlayerHit += BallLogic_PlayerHit;
+        _ballLogic.GroundHit += BallLogic_GroundHit;    
 
         _player1Logic = _Player1.GetComponent<PlayerScript>();
         _player2Logic = _Player2.GetComponent<PlayerScript>();
@@ -119,6 +120,11 @@ public class GameManager : MonoBehaviour
     private void BallLogic_OutsideHit()
     {
         StartCoroutine(HandleSideHit(_servingPlayer));
+    }
+
+    private void BallLogic_GroundHit()
+    {
+        _AudioPlayer.PlayBallSand();
     }
 
     private void UpdateScore(int scoringPlayer)

@@ -15,6 +15,7 @@ public class BallScript : MonoBehaviour
     public event Action<int> SideHit;
     public event Action OutsideHit;
     public event Action<int> PlayerHit;
+    public event Action GroundHit;
 
     public float Gravity = 9.81f;
 
@@ -71,7 +72,10 @@ public class BallScript : MonoBehaviour
             {
                 _hitState = HitState.Outside;
             }
-            OutsideHit?.Invoke();
+            if(collision.collider?.material.name == "SandPhysicMaterial (Instance)")
+            {
+                GroundHit?.Invoke();
+            }
         }
     }
 
