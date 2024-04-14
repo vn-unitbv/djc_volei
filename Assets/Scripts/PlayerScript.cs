@@ -12,7 +12,7 @@ public class PlayerScript : MonoBehaviour
     public char right;
     public char left;
 
-    private float _movementSpeed = 5.0f;
+    private float _movementSpeed = 7.0f;
 
     private Animator _animator;
 
@@ -74,6 +74,10 @@ public class PlayerScript : MonoBehaviour
                 ArrowMovement();
             else
                 KeysMovement();
+        }
+        else
+        {
+            _animator.enabled = false;
         }
     }
 }

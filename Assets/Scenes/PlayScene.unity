@@ -467,7 +467,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -968,7 +968,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1871,6 +1871,10 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 259329169}
+    - target: {fileID: 1169460809463972671, guid: ba80f4128ea9506428e4f7e39205c3ae, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8136479485661141055, guid: ba80f4128ea9506428e4f7e39205c3ae, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.2
@@ -3582,6 +3586,10 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 176114172}
+    - target: {fileID: 1169460809463972671, guid: ba80f4128ea9506428e4f7e39205c3ae, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8136479485661141055, guid: ba80f4128ea9506428e4f7e39205c3ae, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.2

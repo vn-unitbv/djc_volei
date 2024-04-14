@@ -60,14 +60,14 @@ public class BallScript : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Player 1"))
         {
-            _rigidbody.velocity = Vector3.zero;
-            _rigidbody.AddForce(Random.Range(-0.5f, 0.5f), 8, -3f, ForceMode.VelocityChange);
+            //_rigidbody.velocity = Vector3.zero;
+            _rigidbody.velocity = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(12f, 15f), Random.Range(-7f, -3f));
             PlayerHit?.Invoke(1);
         }
         else if (collision.gameObject.tag.Equals("Player 2"))
         {
-            _rigidbody.velocity = Vector3.zero;
-            _rigidbody.AddForce(Random.Range(-0.5f, 0.5f), 8, 3f, ForceMode.VelocityChange);
+            //_rigidbody.velocity = Vector3.zero;
+            _rigidbody.velocity = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(12f, 15f), Random.Range(3, 7f));
             PlayerHit?.Invoke(2);
         }
         else if (collision.gameObject.tag.Equals("court"))

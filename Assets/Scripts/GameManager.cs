@@ -5,6 +5,8 @@ using System.Drawing;
 using TMPro;
 using UnityEngine;
 
+using Random = UnityEngine.Random;
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
@@ -83,9 +85,9 @@ public class GameManager : MonoBehaviour
         _player2Logic.CanMove = true;
         _Ball.GetComponent<Rigidbody>().isKinematic = false;
         if (_servingPlayer == 1)
-            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 14.0f, -7.0f), ForceMode.VelocityChange);
+            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(13.0f, 15.0f), Random.Range(-8.5f ,-6.5f)), ForceMode.VelocityChange);
         else
-            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 14.0f, 7.0f), ForceMode.VelocityChange);
+            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(13.0f, 15.0f), Random.Range(6.5f, 8.5f)), ForceMode.VelocityChange);
         _AudioPlayer.PlayRefereeWhistle();
     }
 
