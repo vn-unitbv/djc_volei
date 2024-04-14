@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private ScoreDisplay _ScoreDisplay;
 
+    [SerializeField]
+    private AudioPlayer _AudioPlayer;
+
     private BallScript _ballLogic;
     private PlayerScript _player1Logic;
     private PlayerScript _player2Logic;
@@ -36,9 +39,11 @@ public class GameManager : MonoBehaviour
         _ballLogic = _Ball.GetComponent<BallScript>();
         _ballLogic.SideHit += BallLogic_SideHit;
         _ballLogic.OutsideHit += BallLogic_OutsideHit;
+        _ballLogic.PlayerHit += BallLogic_PlayerHit;
 
         _player1Logic = _Player1.GetComponent<PlayerScript>();
         _player2Logic = _Player2.GetComponent<PlayerScript>();
+
     }
 
     void Start()
@@ -51,25 +56,23 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     private IEnumerator SetupNewServe()
     {
         _state = State.Serve;
 
-        _Ball.GetComponent<Rigidbody>().isKinematic = true;
         _Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _Ball.GetComponent<Rigidbody>().isKinematic = true;
         _player1Logic.CanMove = false;
         _player2Logic.CanMove = false;
         _Player1.transform.localPosition = new Vector3(0.0f, 2.14f, 8.67f);
         _Player2.transform.localPosition = new Vector3(0.0f, 2.14f, -8.67f);
-        if(_servingPlayer == 1)
+        if (_servingPlayer == 1)
         {
-            _Ball.transform.localPosition = new Vector3(0.0f, 2.856f, 7.729f);
+            _Ball.transform.localPosition = new Vector3(0.0f, 2.856f, 7.0f);
         }
         else
         {
-            _Ball.transform.localPosition = new Vector3(0.0f, 2.856f, -7.729f);
+            _Ball.transform.localPosition = new Vector3(0.0f, 2.856f, -7.0f);
         }
 
         yield return new WaitForSeconds(2);
@@ -79,14 +82,22 @@ public class GameManager : MonoBehaviour
         _player2Logic.CanMove = true;
         _Ball.GetComponent<Rigidbody>().isKinematic = false;
         if (_servingPlayer == 1)
-            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 12.0f, -6.0f), ForceMode.VelocityChange);
+            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 14.0f, -7.0f), ForceMode.VelocityChange);
         else
-            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 12.0f, 6.0f), ForceMode.VelocityChange);
+            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 14.0f, 7.0f), ForceMode.VelocityChange);
     }
 
     private void BallLogic_SideHit(int side)
     {
         StartCoroutine(HandleSideHit(side));
+    }
+
+    private void BallLogic_PlayerHit(int player)
+    {
+        if ( _state == State.Play)
+        {
+            _AudioPlayer.PlayBallHit(); 
+        }
     }
 
     private IEnumerator HandleSideHit(int side)
@@ -100,13 +111,14 @@ public class GameManager : MonoBehaviour
         _player2Logic.CanMove = false;
         UpdateScore(side == 1 ? 2 : 1);
         _servingPlayer = side == 1 ? 2 : 1;
+        _AudioPlayer.PlayRefereeWhistle();
         yield return new WaitForSeconds(2);
         yield return SetupNewServe();
     }
 
     private void BallLogic_OutsideHit()
     {
-        Debug.Log("Outside hit");
+        StartCoroutine(HandleSideHit(_servingPlayer));
     }
 
     private void UpdateScore(int scoringPlayer)

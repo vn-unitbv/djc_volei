@@ -14,6 +14,7 @@ public class BallScript : MonoBehaviour
 
     public event Action<int> SideHit;
     public event Action OutsideHit;
+    public event Action<int> PlayerHit;
 
     public float Gravity = 9.81f;
 
@@ -54,11 +55,15 @@ public class BallScript : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Player 1"))
         {
-            _rigidbody.AddForce(Random.Range(-0.5f, 0.5f), 4, -0.9f, ForceMode.Impulse);
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.AddForce(Random.Range(-0.5f, 0.5f), 8, -3f, ForceMode.VelocityChange);
+            PlayerHit?.Invoke(1);
         }
         else if (collision.gameObject.tag.Equals("Player 2"))
         {
-            _rigidbody.AddForce(Random.Range(-0.5f, 0.5f), 4, 0.9f, ForceMode.Impulse);
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.AddForce(Random.Range(-0.5f, 0.5f), 8, 3f, ForceMode.VelocityChange);
+            PlayerHit?.Invoke(2);
         }
         else if (collision.gameObject.tag.Equals("court"))
         {
