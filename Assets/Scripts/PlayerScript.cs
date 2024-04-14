@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Properties;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class PlayerScript : MonoBehaviour
 {
     public GameObject Player;
@@ -13,11 +14,15 @@ public class PlayerScript : MonoBehaviour
 
     private float _movementSpeed = 5.0f;
 
+    private Animator _animator;
+
     [DontCreateProperty]
     public bool CanMove;
 
     void Start()
     {
+        _animator = GetComponent<Animator>();
+        _animator.enabled = false;
         if (up != 'w')
         {
             up = (char)38;
@@ -41,6 +46,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
             direction = Vector3.up;
 
+        _animator.enabled = direction != Vector3.zero;
         transform.Translate(direction * _movementSpeed * Time.deltaTime);
     }
     private void KeysMovement()
@@ -57,6 +63,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKey(KeyCode.Z))
             direction = Vector3.up;
 
+        _animator.enabled = direction != Vector3.zero;
         transform.Translate(direction * _movementSpeed * Time.deltaTime);
     }
     void Update()
