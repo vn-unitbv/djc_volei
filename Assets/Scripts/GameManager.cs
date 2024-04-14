@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     {
         _ballLogic = _Ball.GetComponent<BallScript>();
         _ballLogic.SideHit += BallLogic_SideHit;
+        _ballLogic.OutsideHit += BallLogic_OutsideHit;  
     }
 
     void Start()
@@ -47,6 +48,11 @@ public class GameManager : MonoBehaviour
     {
         UpdateScore(side == 1 ? 2 : 1);
         SetupNewServe();
+    }
+
+    private void BallLogic_OutsideHit()
+    {
+        Debug.Log("Outside hit");
     }
 
     private void UpdateScore(int scoringPlayer)

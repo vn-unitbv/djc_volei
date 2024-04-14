@@ -31,9 +31,17 @@ public class BallScript : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("Player 1"))
+        {
             _rigidbody.AddForce(Random.Range(-0.5f, 0.5f), 4, -0.9f, ForceMode.Impulse);
+        }
         else if (collision.gameObject.tag.Equals("Player 2"))
+        {
             _rigidbody.AddForce(Random.Range(-0.5f, 0.5f), 4, 0.9f, ForceMode.Impulse);
+        }
+        else if (collision.gameObject.tag.Equals("court"))
+        {
+            OutsideHit?.Invoke();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -45,10 +53,6 @@ public class BallScript : MonoBehaviour
         else if (other.gameObject.tag.Equals("side 2"))
         {
             SideHit?.Invoke(2);
-        }
-        else if (other.gameObject.tag.Equals("Plane") || other.gameObject.tag.Equals("court"))
-        {
-            OutsideHit?.Invoke();
         }
     }
 }
