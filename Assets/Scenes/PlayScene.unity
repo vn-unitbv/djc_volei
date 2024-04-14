@@ -2126,6 +2126,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 117586, guid: 123f09e1454675845858e353fa10648e, type: 3}
+      propertyPath: m_Name
+      value: PauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 452866, guid: 123f09e1454675845858e353fa10648e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452866, guid: 123f09e1454675845858e353fa10648e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452866, guid: 123f09e1454675845858e353fa10648e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 495180, guid: 123f09e1454675845858e353fa10648e, type: 3}
       propertyPath: m_RootOrder
       value: 2
