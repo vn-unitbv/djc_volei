@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject _Ball;
 
+    [SerializeField]
+    private ScoreDisplay _ScoreDisplay;
+
     private BallScript _ballLogic;
 
     private int _player1Score = 0;
@@ -46,23 +49,17 @@ public class GameManager : MonoBehaviour
         SetupNewServe();
     }
 
-
-    [SerializeField]
-    private TMP_Text _Score1;
-    [SerializeField]
-    private TMP_Text _Score2;
-
     private void UpdateScore(int scoringPlayer)
     {
         if (scoringPlayer == 1)
         {
             _player1Score += 1;
-            _Score1.text = _player1Score.ToString();
+            _ScoreDisplay.SetScore1(_player1Score);
         }
         else if (scoringPlayer == 2)
         {
             _player2Score += 1;
-            _Score2.text = _player2Score.ToString();
+            _ScoreDisplay.SetScore2(_player2Score);
         }
     }
 }
