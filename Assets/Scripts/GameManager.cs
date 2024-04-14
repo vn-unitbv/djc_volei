@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 
@@ -16,20 +18,32 @@ public class GameManager : MonoBehaviour
     private ScoreDisplay _ScoreDisplay;
 
     private BallScript _ballLogic;
+    private PlayerScript _player1Logic;
+    private PlayerScript _player2Logic;
 
     private int _player1Score = 0;
     private int _player2Score = 0;
+
+    public enum State
+    {
+        Serve, Play, Score, Finish
+    }
+    private State _state;
+    private int _servingPlayer = 1;
 
     private void Awake()
     {
         _ballLogic = _Ball.GetComponent<BallScript>();
         _ballLogic.SideHit += BallLogic_SideHit;
-        _ballLogic.OutsideHit += BallLogic_OutsideHit;  
+        _ballLogic.OutsideHit += BallLogic_OutsideHit;
+
+        _player1Logic = _Player1.GetComponent<PlayerScript>();
+        _player2Logic = _Player2.GetComponent<PlayerScript>();
     }
 
     void Start()
     {
-        SetupNewServe();
+        StartCoroutine(SetupNewServe());
     }
 
     void Update()
@@ -37,17 +51,57 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void SetupNewServe()
+
+
+    private IEnumerator SetupNewServe()
     {
-        _Player1.transform.position = new Vector3(0.0f, 2.73f, 8.67f);
-        _Player2.transform.position = new Vector3(0.0f, 2.73f, -8.67f);
-        _ballLogic.TempInitialLaunch();
+        _state = State.Serve;
+
+        _Ball.GetComponent<Rigidbody>().isKinematic = true;
+        _Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _player1Logic.CanMove = false;
+        _player2Logic.CanMove = false;
+        _Player1.transform.localPosition = new Vector3(0.0f, 2.14f, 8.67f);
+        _Player2.transform.localPosition = new Vector3(0.0f, 2.14f, -8.67f);
+        if(_servingPlayer == 1)
+        {
+            _Ball.transform.localPosition = new Vector3(0.0f, 2.856f, 7.729f);
+        }
+        else
+        {
+            _Ball.transform.localPosition = new Vector3(0.0f, 2.856f, -7.729f);
+        }
+
+        yield return new WaitForSeconds(2);
+
+        _state = State.Play;
+        _player1Logic.CanMove = true;
+        _player2Logic.CanMove = true;
+        _Ball.GetComponent<Rigidbody>().isKinematic = false;
+        if (_servingPlayer == 1)
+            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 12.0f, -6.0f), ForceMode.VelocityChange);
+        else
+            _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 12.0f, 6.0f), ForceMode.VelocityChange);
     }
 
     private void BallLogic_SideHit(int side)
     {
+        StartCoroutine(HandleSideHit(side));
+    }
+
+    private IEnumerator HandleSideHit(int side)
+    {
+        if (_state != State.Play)
+        {
+            yield break;
+        }
+        _state = State.Score;
+        _player1Logic.CanMove = false;
+        _player2Logic.CanMove = false;
         UpdateScore(side == 1 ? 2 : 1);
-        SetupNewServe();
+        _servingPlayer = side == 1 ? 2 : 1;
+        yield return new WaitForSeconds(2);
+        yield return SetupNewServe();
     }
 
     private void BallLogic_OutsideHit()

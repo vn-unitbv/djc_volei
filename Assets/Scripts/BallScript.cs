@@ -2,10 +2,12 @@ using System;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(Rigidbody))]
 public class BallScript : MonoBehaviour
 {
     private Rigidbody _rigidbody;
@@ -13,19 +15,39 @@ public class BallScript : MonoBehaviour
     public event Action<int> SideHit;
     public event Action OutsideHit;
 
+    public float Gravity = 9.81f;
+
+    private enum HitState
+    {
+        None, Inside, Outside
+    }
+
+    private HitState _hitState = HitState.None;
+    private int _hitSide;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void TempInitialLaunch()
+    private void FixedUpdate()
     {
-        _rigidbody.velocity = Vector3.zero;
-        transform.localPosition = new Vector3(0.0f, 14.0f, 0.0f);
-        if (Random.Range(1.0f, 2.0f) > 1.4f)
-            _rigidbody.AddForce(new(0, 0, 2.5f), ForceMode.Impulse);
-        else
-            _rigidbody.AddForce(new(0, 0, -2.5f), ForceMode.Impulse);
+        Vector3 gravity = Gravity * Vector3.down;
+        _rigidbody.AddForce(gravity, ForceMode.Acceleration);
+
+        switch (_hitState)
+        {
+            case HitState.None:
+                break;
+            case HitState.Inside:
+                _hitState = HitState.None;
+                SideHit?.Invoke(_hitSide);
+                break;
+            case HitState.Outside:
+                _hitState = HitState.None;
+                OutsideHit?.Invoke();
+                break;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -40,6 +62,10 @@ public class BallScript : MonoBehaviour
         }
         else if (collision.gameObject.tag.Equals("court"))
         {
+            if (_hitState == HitState.None)
+            {
+                _hitState = HitState.Outside;
+            }
             OutsideHit?.Invoke();
         }
     }
@@ -48,11 +74,13 @@ public class BallScript : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("side 1"))
         {
-            SideHit?.Invoke(1);
+            _hitSide = 1;
+            _hitState = HitState.Inside;
         }
         else if (other.gameObject.tag.Equals("side 2"))
         {
-            SideHit?.Invoke(2);
+            _hitSide = 2;
+            _hitState = HitState.Inside;
         }
     }
 }

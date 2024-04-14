@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Properties;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -11,6 +12,10 @@ public class PlayerScript : MonoBehaviour
     public char left;
 
     private float _movementSpeed = 5.0f;
+
+    [DontCreateProperty]
+    public bool CanMove;
+
     void Start()
     {
         if (up != 'w')
@@ -56,9 +61,12 @@ public class PlayerScript : MonoBehaviour
     }
     void Update()
     {
-        if (up == 38)
-            ArrowMovement();
-        else
-            KeysMovement();
+        if (CanMove)
+        {
+            if (up == 38)
+                ArrowMovement();
+            else
+                KeysMovement();
+        }
     }
 }
