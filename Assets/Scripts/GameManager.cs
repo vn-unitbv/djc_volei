@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
             _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 14.0f, -7.0f), ForceMode.VelocityChange);
         else
             _Ball.GetComponent<Rigidbody>().AddForce(new Vector3(0, 14.0f, 7.0f), ForceMode.VelocityChange);
+        _AudioPlayer.PlayRefereeWhistle();
     }
 
     private void BallLogic_SideHit(int side)
@@ -95,10 +96,7 @@ public class GameManager : MonoBehaviour
 
     private void BallLogic_PlayerHit(int player)
     {
-        if ( _state == State.Play)
-        {
-            _AudioPlayer.PlayBallHit(); 
-        }
+        _AudioPlayer.PlayBallHit();
     }
 
     private IEnumerator HandleSideHit(int side)
